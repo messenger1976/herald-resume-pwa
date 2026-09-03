@@ -1,0 +1,80 @@
+name: Resume CI
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify required project files
+        run: |
+          required_files=(
+            "index.html"
+            "experience.html"
+            "projects.html"
+            "portfolio.html"
+            "contact.html"
+            "offline.html"
+            "manifest.json"
+            "service-worker.js"
+            "css/styles.css"
+            "js/app.js"
+            "js/render.js"
+            "assets/data/resume.json"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "Missing required file: $file"
+              exit 1
+            fi
+          done
+
+      - name: Validate resume JSON structure
+        run: |
+          node -e "
+          const fs = require('fs');
+          const data = JSON.parse(fs.readFileSync('assets/data/resume.json', 'utf8'));
+          const required = ['name','title','summary','coreSkills','stack','experience','projects'];
+          const missing = required.filter((k) => !(k in data));
+          if (missing.length) {
+            console.error('Missing required JSON keys:', missing.join(', '));
+            process.exit(1);
+          }
+          if (!Array.isArray(data.coreSkills) || data.coreSkills.length === 0) {
+            console.error('coreSkills must be a non-empty array');
+            process.exit(1);
+          }
+          if (!Array.isArray(data.experience) || data.experience.length === 0) {
+            console.error('experience must be a non-empty array');
+            process.exit(1);
+          }
+          if (!Array.isArray(data.projects) || data.projects.length === 0) {
+            console.error('projects must be a non-empty array');
+            process.exit(1);
+          }
+          console.log('resume.json validation passed');
+          "
+
+      - name: JavaScript syntax checks
+        run: |
+          node --check js/app.js
+          node --check js/render.js
+

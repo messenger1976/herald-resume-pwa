@@ -1,0 +1,30 @@
+on:
+  push:
+    branches:
+      - master
+      - main
+name: 🚀 Deploy Resume Website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy Resume to resume.bohollander.com
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: resume.bohollander.com
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.ftp_password }}
+          server-dir: /
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github*
+            **/.github*/**
+            **/node_modules/**
+            **/.DS_Store
+            **/Thumbs.db
