@@ -1,0 +1,224 @@
+:root {
+  --royal-950: #06142e;
+  --royal-900: #0b1f4d;
+  --royal-800: #123a7a;
+  --gold-400: #60a5fa;
+  --gold-500: #2563eb;
+  --ink: #10213f;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: linear-gradient(180deg, #eff6ff 0%, #e0ecff 40%, #f8fbff 100%);
+  color: #10213f;
+}
+
+h1, h2, h3, .navbar-brand {
+  font-family: "Cinzel", Georgia, serif;
+}
+
+.navbar {
+  background: rgba(6, 20, 46, 0.95) !important;
+}
+
+.navbar .nav-link,
+.navbar .navbar-brand {
+  color: #dbeafe !important;
+}
+
+.navbar .nav-link {
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #60a5fa, #bfdbfe);
+  transition: width 0.25s ease;
+}
+
+.navbar .nav-link:hover::after,
+.navbar .nav-link.active::after {
+  width: 100%;
+}
+
+.hero-wrap {
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(96, 165, 250, 0.25) 0%, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, var(--royal-950), var(--royal-900), var(--royal-800));
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-wrap p,
+.hero-wrap .text-slate-300,
+.hero-wrap .text-slate-400,
+.hero-wrap .text-slate-500 {
+  color: #e2e8f0 !important;
+}
+
+.hero-wrap #heroSummary {
+  color: #ffffff !important;
+}
+
+.hero-summary {
+  color: #ffffff !important;
+}
+
+.hero-wrap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 42px;
+  background: linear-gradient(180deg, transparent, #eff6ff);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #dbeafe, #ffffff, #93c5fd, #e0f2fe, #bfdbfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.profile-photo {
+  width: min(260px, 75vw);
+  height: min(260px, 75vw);
+  border-radius: 999px;
+  object-fit: cover;
+  border: 4px solid #93c5fd;
+  box-shadow: 0 0 0 8px rgba(37, 99, 235, 0.35), 0 14px 40px rgba(0, 0, 0, 0.38);
+}
+
+.glass {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  box-shadow: 0 14px 32px rgba(30, 64, 175, 0.1);
+}
+
+.btn-info {
+  background: linear-gradient(90deg, var(--gold-500), var(--gold-400));
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.btn-info:hover {
+  color: #ffffff;
+  filter: brightness(0.97);
+}
+
+.btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-outline-info {
+  color: #1e40af;
+  border-color: #1e40af;
+  font-weight: 600;
+}
+
+.btn-outline-info:hover,
+.btn-outline-info:focus {
+  background: #1e40af;
+  border-color: #1e40af;
+  color: #fff;
+}
+
+.link-info {
+  color: #1e40af !important;
+  font-weight: 600;
+}
+
+.skill-chip {
+  font-size: 0.8rem;
+}
+
+.timeline-wrap {
+  position: relative;
+}
+
+.timeline-item {
+  position: relative;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: -7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--gold-500);
+  display: none;
+}
+
+.hover-link {
+  transition: background-color 0.2s ease;
+}
+
+.hover-link:hover {
+  background: #eff6ff;
+}
+
+.text-slate-100, .text-slate-200, .text-slate-300, .text-slate-400, .text-slate-500 {
+  color: #1f3b5b !important;
+}
+
+.text-muted {
+  color: #435d7a !important;
+}
+
+.form-control,
+.form-control:focus {
+  color: #10213f;
+}
+
+.text-info {
+  color: #1d4ed8 !important;
+}
+
+.hero-wrap .text-info {
+  color: #93c5fd !important;
+}
+
+.text-info-emphasis {
+  color: #1e40af !important;
+}
+
+.border-slate-800 {
+  border-color: rgba(37, 99, 235, 0.2) !important;
+}
+
+footer {
+  background: rgba(239, 246, 255, 0.85);
+}
+
+footer .text-slate-400 {
+  color: #334e70 !important;
+}
+
+@media (min-width: 992px) {
+  .timeline-wrap {
+    border-left: 2px solid rgba(96, 165, 250, 0.35);
+    padding-left: 2rem;
+    margin-left: 0.5rem;
+  }
+
+  .timeline-item::before {
+    display: block;
+  }
+}

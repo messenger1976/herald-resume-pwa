@@ -1,0 +1,131 @@
+{
+  "name": "Herald Felisilda",
+  "title": "Senior Software Engineer | Full-Stack Developer | Software Architect",
+  "location": "Tagbilaran City, Bohol, Philippines",
+  "phone": "+63 915 187 4107",
+  "email": "herald_felisilda@yahoo.com",
+  "linkedin": "https://www.linkedin.com/in/herald-felisilda-7aab776b",
+  "photo": "assets/images/profile.jpg",
+  "summary": "Senior Software Engineer and Full-Stack Developer with 20+ years of experience designing, developing, deploying, and supporting web applications, enterprise software, APIs, and business-critical IT systems, with extensive hands-on expertise in AI-assisted development using Cursor AI, CI/CD pipeline automation, and project management delivery.",
+  "metrics": [
+    { "label": "Years of Experience", "value": "20+" },
+    { "label": "Branch Integrations", "value": "250+" },
+    { "label": "Core Domains", "value": "AI Tools, CI/CD, Project Delivery" },
+    { "label": "Current Role", "value": "UnifiedAR Senior Software Engineer" }
+  ],
+  "coreSkills": [
+    "AI-Assisted Development (Cursor AI)",
+    "CI/CD Pipeline Automation",
+    "Project Management and Delivery",
+    "Software Architecture",
+    "Full-Stack Development",
+    "RESTful API Design",
+    "Technical Leadership",
+    "Systems Integration",
+    "Database Design",
+    "UI/UX Implementation"
+  ],
+  "stack": {
+    "Programming and Web": ["C#", ".NET", ".NET Core", "ASP.NET", "PHP", "Laravel", "CodeIgniter", "Java", "JavaScript", "Node.js", "HTML5", "CSS3", "jQuery", "AJAX"],
+    "Frontend and UI": ["AngularJS", "ExtJS", "Bootstrap", "TailwindCSS", "jQuery", "Responsive Design"],
+    "Databases and Enterprise": ["SQL Server", "MySQL", "PostgreSQL", "Microsoft Access", "SAP", "FrontAccounting ERP"],
+    "APIs and DevOps": ["REST APIs", "JSON", "Git", "GitHub", "CI/CD Pipelines", "Docker", "Composer"],
+    "Infrastructure": ["Linux", "Ubuntu", "Windows Server", "Networking", "Server Administration"],
+    "AI and Collaboration": ["Cursor AI", "AI-Assisted Coding Workflows", "Agile Project Management", "Stakeholder Communication", "Team Coordination"]
+  },
+  "experience": [
+    {
+      "company": "UnifiedAR",
+      "role": "Senior Software Engineer",
+      "period": "June 2022 - Present",
+      "location": "Remote / Philippines",
+      "highlights": [
+        "Lead end-to-end software development for platform architecture, APIs, and integrations.",
+        "Use Cursor AI and AI-assisted workflows to accelerate development quality and delivery speed.",
+        "Contribute to UI/UX design and implementation for better usability.",
+        "Manage production and staging environments with security and high availability.",
+        "Support CI/CD pipelines, Git branching strategy, and client technical solutions.",
+        "Manage sprint-level planning, technical priorities, and stakeholder-driven feature delivery."
+      ]
+    },
+    {
+      "company": "Bohollander IT Solution",
+      "role": "Web Application Developer",
+      "period": "February 2003 - Present",
+      "location": "Bohol, Philippines",
+      "highlights": [
+        "Build enterprise and web applications across Microsoft and open-source stacks.",
+        "Develop dynamic frontend interfaces with AngularJS, ExtJS, Bootstrap, JavaScript, jQuery, and AJAX.",
+        "Design and integrate RESTful APIs and JSON services.",
+        "Administer Linux servers and provide client technical support.",
+        "Lead project execution from requirements planning to deployment and post-release support."
+      ]
+    },
+    {
+      "company": "DU EK SAM, INC.",
+      "role": "System Software Manager",
+      "period": "January 2015 - February 2022",
+      "location": "Tagbilaran City, Bohol",
+      "highlights": [
+        "Architected centralized RESTful API platform connecting 250+ branch locations.",
+        "Led architecture and development of core enterprise business systems.",
+        "Directed developer workflows and ensured timely delivery."
+      ]
+    },
+    {
+      "company": "Charles P. Rogers Beds / Gramercy Forge International Inc.",
+      "role": "Senior Web Application Developer",
+      "period": "February 2007 - January 2015",
+      "location": "Mandaue City, Cebu",
+      "highlights": [
+        "Developed and maintained large e-commerce platform using ZenCart, PHP, MySQL, ExtJS, jQuery, and AJAX.",
+        "Built internal back-office apps with CodeIgniter.",
+        "Integrated payment gateways including PayPal and credit card processors."
+      ]
+    },
+    {
+      "company": "NCR Corporation",
+      "role": "Software Development Engineer",
+      "period": "September 2003 - February 2007",
+      "location": "Cebu City",
+      "highlights": [
+        "Developed web, POS, and back-office systems for ACS platform.",
+        "Executed comprehensive software testing and release certification.",
+        "Provided Tier 2/Tier 3 support for deployment and runtime issues."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "UnifiedAR Platform",
+      "description": "End-to-end software engineering across architecture, APIs, UX, infrastructure, and deployment.",
+      "url": "https://www.unifiedar.com",
+      "type": "Company Platform"
+    },
+    {
+      "name": "Bohollander IT Solutions",
+      "description": "Custom software development and web application consulting portfolio.",
+      "url": "https://www.bohollander.com",
+      "type": "Company Website"
+    },
+    {
+      "name": "BODA REMPC",
+      "description": "Portfolio and organizational web project.",
+      "url": "https://www.bodarempc.com",
+      "type": "Portfolio"
+    },
+    {
+      "name": "Bohol Island Tours",
+      "description": "Tourism and booking-oriented web platform.",
+      "url": "https://www.boholislandtours.com",
+      "type": "Portfolio"
+    },
+    {
+      "name": "Pension House App",
+      "description": "Hospitality-focused portfolio web platform.",
+      "url": "https://pensionhouse.bodarempc.com",
+      "type": "Portfolio"
+    }
+  ],
+  "languages": ["English", "Tagalog"]
+}
