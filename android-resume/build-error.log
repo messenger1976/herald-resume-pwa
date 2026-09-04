@@ -1,0 +1,5 @@
+Note: C:\xampp\htdocs\resume\android-resume\app\src\main\java\com\herald\resume\MainActivity.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+The message received from the daemon indicates that the daemon has disappeared.
+Build request sent: Build{id=c92d76c2-7edf-45f6-af64-ebb0bca93807, currentDir=C:\xampp\htdocs\resume\android-resume}
+Attempting to read last messages from the daemon log...

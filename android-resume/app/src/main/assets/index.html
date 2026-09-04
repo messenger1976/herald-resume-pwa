@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Herald Felisilda - Senior Software Engineer resume website">
+  <title>Herald Felisilda | Resume</title>
+  <link rel="manifest" href="manifest.json">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="home">
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top backdrop-blur border-bottom border-slate-800">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="index.html">HFolio</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="experience.html">Experience</a></li>
+          <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="py-5 hero-wrap">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-lg-7 order-2 order-lg-1">
+          <p class="text-info fw-semibold mb-2"><i class="fa-solid fa-laptop-code me-1"></i> Senior Software Engineer</p>
+          <h1 id="heroName" class="display-5 fw-bold leading-tight mb-3 gold-gradient-text">Herald Felisilda</h1>
+          <p id="heroSummary" class="hero-summary mb-4"></p>
+          <div class="d-flex flex-wrap gap-2 mb-4" id="topSkills"></div>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-info btn-lg" href="experience.html">View Experience</a>
+            <a class="btn btn-outline-light btn-lg" href="portfolio.html">View Portfolio</a>
+            <a class="btn btn-outline-light btn-lg" href="contact.html">Get in Touch</a>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5 order-1 order-lg-2 text-center">
+          <img id="profilePhoto" class="profile-photo shadow-lg" src="assets/images/profile.jpg" alt="Herald Felisilda profile photo">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="pb-5">
+    <section class="container mb-5">
+      <div class="row g-3" id="metricsCards"></div>
+    </section>
+
+    <section class="container mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h3 mb-0">Career Highlights</h2>
+        <a href="experience.html" class="link-info">Full timeline</a>
+      </div>
+      <div id="highlightsList" class="row g-3"></div>
+    </section>
+
+    <section class="container">
+      <h2 class="h3 mb-3">Technology Stack</h2>
+      <div id="stackGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+    </section>
+  </main>
+
+  <footer class="py-4 border-top border-slate-800">
+    <div class="container text-slate-400 text-sm d-flex flex-column flex-md-row justify-content-between gap-2">
+      <span id="footerName"></span>
+      <span>Built with HTML5, jQuery AJAX, Bootstrap, Tailwind, and PWA.</span>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

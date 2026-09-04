@@ -1,4 +1,4 @@
-const CACHE_NAME = "hfolio-cache-v7";
+const CACHE_NAME = "hfolio-cache-v6";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -48,28 +48,26 @@ self.addEventListener("fetch", function (event) {
     return;
   }
 
-  const isAppShellRequest =
-    event.request.mode === "navigate" ||
-    /\.(?:html|css|js|json)$/i.test(new URL(event.request.url).pathname);
-
   event.respondWith(
-    (isAppShellRequest ? fetch(event.request) : caches.match(event.request).then(function (cached) { return cached || fetch(event.request); }))
-      .then(function (response) {
-        if (response && response.ok) {
+    caches.match(event.request).then(function (cached) {
+      if (cached) {
+        return cached;
+      }
+
+      return fetch(event.request)
+        .then(function (response) {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then(function (cache) {
             cache.put(event.request, responseClone);
           });
-        }
-        return response;
-      })
-      .catch(function () {
-        if (event.request.mode === "navigate") {
-          return caches.match("./offline.html");
-        }
-        return caches.match(event.request).then(function (cached) {
-          return cached || new Response("", { status: 503, statusText: "Offline" });
+          return response;
+        })
+        .catch(function () {
+          if (event.request.mode === "navigate") {
+            return caches.match("./offline.html");
+          }
+          return new Response("", { status: 503, statusText: "Offline" });
         });
-      })
+    })
   );
 });

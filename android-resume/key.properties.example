@@ -1,0 +1,5 @@
+# Copy to key.properties and replace the values. Never commit key.properties.
+storeFile=herald-resume-release.keystore
+storePassword=replace-with-your-keystore-password
+keyAlias=herald-resume
+keyPassword=replace-with-your-key-password

@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'com.herald.resume'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.herald.resume'
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName '1.0.0'
+    }
+
+    signingConfigs {
+        release {
+            def signingProperties = new Properties()
+            def signingFile = rootProject.file('key.properties')
+            if (signingFile.exists()) {
+                signingProperties.load(new FileInputStream(signingFile))
+                storeFile rootProject.file(signingProperties['storeFile'])
+                storePassword signingProperties['storePassword']
+                keyAlias signingProperties['keyAlias']
+                keyPassword signingProperties['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+}
