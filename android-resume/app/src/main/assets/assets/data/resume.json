@@ -32,7 +32,7 @@
     "Databases and Enterprise": ["SQL Server", "MySQL", "PostgreSQL", "Microsoft Access", "SAP", "FrontAccounting ERP"],
     "APIs and DevOps": ["REST APIs", "JSON", "PayMongo API", "Payment Gateway Integration", "Git", "GitHub", "CI/CD Pipelines", "Docker", "Composer"],
     "Infrastructure": ["Linux", "Ubuntu", "Windows Server", "Networking", "Server Administration"],
-    "AI and Collaboration": ["Cursor AI", "AI-Assisted Coding Workflows", "Agile Project Management", "Stakeholder Communication", "Team Coordination"]
+    "AI and Collaboration": ["Cursor AI", "Ollama", "DeepSeek Harness", "CODEX", "GitHub Version Control", "AI-Assisted Coding Workflows", "Agile Project Management", "Stakeholder Communication", "Team Coordination"]
   },
   "experience": [
     {
