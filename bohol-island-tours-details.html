@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Bohol Island Tours case study — tourism website frontend and CodeIgniter 3 admin platform details">
+  <title>Bohol Island Tours Details | Herald Felisilda</title>
+  <link rel="manifest" href="manifest.json">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="bohol-tours-details">
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top backdrop-blur border-bottom border-slate-800">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="index.html">HFolio</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="experience.html">Experience</a></li>
+          <li class="nav-item"><a class="nav-link active" href="portfolio.html">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4 py-md-5">
+    <div class="mb-3">
+      <a href="portfolio.html" class="link-info text-decoration-none small">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Portfolio
+      </a>
+    </div>
+
+    <header class="mb-4">
+      <p class="small text-info-emphasis mb-1">Portfolio Case Study · Frontend &amp; Backend</p>
+      <h1 class="display-6 fw-bold mb-2">Bohol Island Tours</h1>
+      <p class="text-muted mb-3">
+        Tourism and booking platform for Tagbilaran-based Bohol Island Tours —
+        multi-day packages, destinations guide, vehicle rentals, inquiry/contact flows,
+        plus a CodeIgniter 3 admin panel for bookings, customers, inquiries, reports, and ACL.
+      </p>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <a class="btn btn-info btn-sm" href="https://www.boholislandtours.com" target="_blank" rel="noopener">
+          <i class="fa-solid fa-up-right-from-square me-1"></i> Open Live Site
+        </a>
+        <a class="btn btn-outline-info btn-sm" href="#frontend">Frontend</a>
+        <a class="btn btn-outline-info btn-sm" href="#backend">Backend</a>
+        <a class="btn btn-outline-info btn-sm" href="portfolio.html">Back to Portfolio</a>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">PHP + CodeIgniter 3</span>
+        <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">MySQL</span>
+        <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">REST Booking API</span>
+        <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">PWA + SEO</span>
+        <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Granular RBAC</span>
+      </div>
+    </header>
+
+    <section class="glass rounded-4 p-3 p-md-4 mb-4">
+      <h2 class="h4 mb-3">About This Application</h2>
+      <div class="row g-3">
+        <div class="col-12 col-lg-7">
+          <p class="text-muted small mb-3">
+            Dual-surface travel platform: a public marketing/booking site for packages and rentals,
+            and an admin panel for operations. Visitors browse destinations, compare 2D1N–5D4N itineraries,
+            request quotations, and reach the team via contact form or Facebook Messenger.
+            Staff manage bookings, customers, inquiries, email settings, reports, and role-based access.
+          </p>
+          <ul class="small text-muted mb-0 ps-3">
+            <li>Public: Home, Tour Packages (2D1N–5D4N), Destinations, About Bohol, Car/Van Rental, Contact</li>
+            <li>Guest flows: quote/inquiry, newsletter, Messenger chat, optional login &amp; customer dashboard</li>
+            <li>Admin: Dashboard, Bookings, Customers, Inquiries, Reports, Users / Groups / Roles</li>
+            <li>SEO: JSON-LD, Open Graph, sitemap, robots; PWA manifest + service worker</li>
+          </ul>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="rounded-4 p-3 border border-primary-subtle bg-white">
+            <p class="small text-info-emphasis fw-semibold mb-2">Stack, Tools &amp; Plugins</p>
+            <ul class="small text-muted mb-0 ps-3">
+              <li>Public site: PHP pages + custom CSS/JS theme</li>
+              <li>Admin: CodeIgniter 3 MVC under <code>admin/</code></li>
+              <li>Database: MySQL (bookings, customers, ACL)</li>
+              <li>APIs: Auth, Booking, Inquiry, User REST endpoints</li>
+              <li>Client: <code>api-config.js</code> / <code>booking-api.js</code></li>
+              <li>Comms: SMTP settings + Facebook Messenger float</li>
+              <li>Ops: Granular RBAC, reports, module generator, PWA</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FRONTEND SECTION -->
+    <section id="frontend" class="mb-5">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-3">
+        <div>
+          <span class="badge text-bg-primary mb-2">Section 1 of 2</span>
+          <h2 class="h3 mb-1">Frontend Screens</h2>
+          <p class="text-muted small mb-0">Public tourism experience — click a thumbnail to preview, click main image for full view.</p>
+        </div>
+        <p id="frontendCaption" class="small text-info-emphasis mb-0 fw-semibold"></p>
+      </div>
+
+      <div id="frontendPending" class="glass rounded-4 p-4 mb-3 d-none">
+        <p class="small text-muted mb-0">Frontend screenshots will appear here once added.</p>
+      </div>
+
+      <div id="frontendGallery">
+        <div class="glass rounded-4 p-2 p-md-3 mb-3">
+          <div class="gallery-main-wrap">
+            <img id="frontendMain" class="gallery-main-img" src="" alt="Bohol Island Tours frontend screenshot">
+          </div>
+        </div>
+
+        <div id="frontendThumbs" class="gallery-thumbs" role="list"></div>
+      </div>
+    </section>
+
+    <!-- BACKEND SECTION -->
+    <section id="backend" class="mb-5">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-3">
+        <div>
+          <span class="badge text-bg-primary mb-2">Section 2 of 2</span>
+          <h2 class="h3 mb-1">Backend / Admin Screens</h2>
+          <p class="text-muted small mb-0">CodeIgniter 3 admin panel — bookings, inquiries, customers, reports, and ACL.</p>
+        </div>
+        <p id="backendCaption" class="small text-info-emphasis mb-0 fw-semibold"></p>
+      </div>
+
+      <div class="glass rounded-4 p-3 p-md-4 mb-3">
+        <h3 class="h5 mb-2">Admin Modules Covered</h3>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Dashboard</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Bookings</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Customers</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Inquiries</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Reports</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Email / SMTP</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Users / Groups / Roles</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Granular Permissions</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Booking Settings</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Module Generator</span>
+          <span class="badge rounded-pill text-bg-light text-dark border border-primary-subtle px-3 py-2">Admin Profile</span>
+        </div>
+        <p class="small text-muted mb-0">
+          Built with <strong>CodeIgniter 3</strong>, MySQL, REST APIs under <code>admin/application/controllers/api/</code>,
+          granular RBAC (view/add/edit/delete per module), SMTP configuration, reports, and a public site
+          that integrates booking/auth clients plus Messenger for lead conversion.
+        </p>
+      </div>
+
+      <div id="backendPending" class="glass rounded-4 p-4 mb-3 d-none">
+        <p class="small text-info-emphasis fw-semibold mb-1">Backend screenshots coming next</p>
+        <p class="small text-muted mb-0">
+          Drop admin captures into <code>assets/images/bohol-island-tours/backend/</code> and list them in
+          <code>js/bohol-tours-gallery.js</code> — the gallery will light up automatically.
+        </p>
+      </div>
+
+      <div id="backendGallery" class="d-none">
+        <div class="glass rounded-4 p-2 p-md-3 mb-3">
+          <div class="gallery-main-wrap">
+            <img id="backendMain" class="gallery-main-img" src="" alt="Bohol Island Tours backend screenshot">
+          </div>
+        </div>
+
+        <div id="backendThumbs" class="gallery-thumbs" role="list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-4 border-top border-slate-800">
+    <div class="container text-slate-400 text-sm">
+      <span id="footerName"></span>
+    </div>
+  </footer>
+
+  <div id="galleryLightbox" class="gallery-lightbox d-none" aria-hidden="true">
+    <button type="button" class="gallery-lightbox-close" id="lightboxClose" aria-label="Close full view">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <img id="lightboxImage" src="" alt="Full size screenshot">
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/bohol-tours-gallery.js"></script>
+</body>
+</html>

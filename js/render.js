@@ -124,7 +124,8 @@ function renderPortfolio(resume) {
   const portfolioHtml = portfolioItems.map(function (item) {
     const detailsPages = {
       "Pension House App": "pension-house-details.html",
-      "Lakambini 2026": "lakambini-details.html"
+      "Lakambini 2026": "lakambini-details.html",
+      "Bohol Island Tours": "bohol-island-tours-details.html"
     };
     const detailsHref = detailsPages[item.name];
     const detailsBtn = detailsHref

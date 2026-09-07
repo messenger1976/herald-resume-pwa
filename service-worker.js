@@ -1,4 +1,4 @@
-const CACHE_NAME = "hfolio-cache-v12";
+const CACHE_NAME = "hfolio-cache-v13";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -7,6 +7,7 @@ const CORE_ASSETS = [
   "./portfolio.html",
   "./pension-house-details.html",
   "./lakambini-details.html",
+  "./bohol-island-tours-details.html",
   "./contact.html",
   "./offline.html",
   "./css/styles.css",
@@ -14,6 +15,7 @@ const CORE_ASSETS = [
   "./js/render.js",
   "./js/pension-gallery.js",
   "./js/lakambini-gallery.js",
+  "./js/bohol-tours-gallery.js",
   "./assets/data/resume.json",
   "./manifest.json",
   "./assets/icons/icon-192.svg",
