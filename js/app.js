@@ -53,6 +53,9 @@ function bootPage(resume) {
   if (page === "portfolio") {
     renderPortfolio(resume);
   }
+  if (page === "pension-details") {
+    $("#footerName").text(resume.name + " - " + resume.title);
+  }
   if (page === "contact") {
     renderContact(resume);
     initContactForm();

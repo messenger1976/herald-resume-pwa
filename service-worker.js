@@ -1,15 +1,17 @@
-const CACHE_NAME = "hfolio-cache-v7";
+const CACHE_NAME = "hfolio-cache-v9";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./experience.html",
   "./projects.html",
   "./portfolio.html",
+  "./pension-house-details.html",
   "./contact.html",
   "./offline.html",
   "./css/styles.css",
   "./js/app.js",
   "./js/render.js",
+  "./js/pension-gallery.js",
   "./assets/data/resume.json",
   "./manifest.json",
   "./assets/icons/icon-192.svg",

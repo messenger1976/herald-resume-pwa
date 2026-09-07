@@ -122,13 +122,20 @@ function renderPortfolio(resume) {
   });
 
   const portfolioHtml = portfolioItems.map(function (item) {
+    const isPensionHouse = item.name === "Pension House App";
+    const detailsBtn = isPensionHouse
+      ? '<a class="btn btn-info btn-sm" href="pension-house-details.html">View Details</a>'
+      : "";
     return (
       '<div class="col-12 col-md-6 col-lg-4">' +
         '<article class="glass rounded-4 p-4 h-100">' +
           '<p class="small text-info-emphasis mb-2">' + item.type + "</p>" +
           '<h2 class="h5 mb-2">' + item.name + "</h2>" +
           '<p class="text-muted small mb-3">' + item.description + "</p>" +
-          '<a class="btn btn-outline-info btn-sm" target="_blank" rel="noopener" href="' + item.url + '">Open Portfolio</a>' +
+          '<div class="d-flex flex-wrap gap-2">' +
+            '<a class="btn btn-outline-info btn-sm" target="_blank" rel="noopener" href="' + item.url + '">Open Portfolio</a>' +
+            detailsBtn +
+          "</div>" +
         "</article>" +
       "</div>"
     );
