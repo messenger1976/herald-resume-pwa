@@ -127,6 +127,12 @@
       "description": "Hospitality-focused portfolio web platform.",
       "url": "https://pensionhouse.bodarempc.com",
       "type": "Portfolio"
+    },
+    {
+      "name": "Lakambini 2026",
+      "description": "School pageant campaign site with GCash support, donors wall, and admin validation.",
+      "url": "https://lakambini2026.bohollander.com",
+      "type": "Portfolio"
     }
   ],
   "languages": ["English", "Tagalog"]

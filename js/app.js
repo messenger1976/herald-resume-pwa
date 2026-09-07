@@ -53,7 +53,7 @@ function bootPage(resume) {
   if (page === "portfolio") {
     renderPortfolio(resume);
   }
-  if (page === "pension-details") {
+  if (page === "pension-details" || page === "lakambini-details") {
     $("#footerName").text(resume.name + " - " + resume.title);
   }
   if (page === "contact") {
