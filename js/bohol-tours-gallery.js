@@ -9,7 +9,29 @@
       { src: "assets/images/bohol-island-tours/frontend/contact.jpg", label: "Contact & Inquiry Form" }
     ],
     backend: [
-      // Backend screenshots — add when available
+      { src: "assets/images/bohol-island-tours/backend/admin-login.png", label: "Admin Login" },
+      { src: "assets/images/bohol-island-tours/backend/dashboard.png", label: "Dashboard · Tourism Booking Engine" },
+      { src: "assets/images/bohol-island-tours/backend/dashboard-darkmode.png", label: "Dashboard · Dark Mode" },
+      { src: "assets/images/bohol-island-tours/backend/bookings.png", label: "Manage Bookings" },
+      { src: "assets/images/bohol-island-tours/backend/booking-view.png", label: "Booking Details" },
+      { src: "assets/images/bohol-island-tours/backend/booking-edit.png", label: "Edit Booking" },
+      { src: "assets/images/bohol-island-tours/backend/calendar.png", label: "Booking Calendar" },
+      { src: "assets/images/bohol-island-tours/backend/calendar-edit.png", label: "Calendar · Edit Event" },
+      { src: "assets/images/bohol-island-tours/backend/tour-packages.png", label: "Tour Packages Offer" },
+      { src: "assets/images/bohol-island-tours/backend/tour-package-edit.png", label: "Edit Tour Package" },
+      { src: "assets/images/bohol-island-tours/backend/inquiries.png", label: "Manage Inquiries" },
+      { src: "assets/images/bohol-island-tours/backend/inquiry-view.png", label: "Inquiry Thread + Reply" },
+      { src: "assets/images/bohol-island-tours/backend/customers.png", label: "Customers / Guests" },
+      { src: "assets/images/bohol-island-tours/backend/customer-details.png", label: "Customer Details" },
+      { src: "assets/images/bohol-island-tours/backend/daily-sales-report.png", label: "Daily Sales Report" },
+      { src: "assets/images/bohol-island-tours/backend/users.png", label: "Manage Admin Users" },
+      { src: "assets/images/bohol-island-tours/backend/user-details.png", label: "User Details + Permissions" },
+      { src: "assets/images/bohol-island-tours/backend/groups.png", label: "Manage Groups" },
+      { src: "assets/images/bohol-island-tours/backend/group-view.png", label: "Group Details" },
+      { src: "assets/images/bohol-island-tours/backend/group-edit.png", label: "Edit Group + Roles" },
+      { src: "assets/images/bohol-island-tours/backend/roles.png", label: "Manage Roles" },
+      { src: "assets/images/bohol-island-tours/backend/role-view.png", label: "Role Details" },
+      { src: "assets/images/bohol-island-tours/backend/role-edit.png", label: "Edit Role + ACL Permissions" }
     ]
   };
 
