@@ -129,6 +129,12 @@
       "type": "Portfolio"
     },
     {
+      "name": "Labason Water District",
+      "description": "Water billing & utility admin for Labason WD — customers by zone, franchise-tax meter billing, collections analytics, AR adjustment, support tickets, SMS/push, and admin ops.",
+      "url": "https://labwd.com/",
+      "type": "Portfolio"
+    },
+    {
       "name": "Bohol Island Tours",
       "description": "Tourism booking platform with packages, destinations, rentals, and CI3 admin.",
       "url": "https://www.boholislandtours.com",

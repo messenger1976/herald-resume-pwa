@@ -128,7 +128,8 @@ function renderPortfolio(resume) {
       "Lakambini 2026": "lakambini-details.html",
       "Bohol Island Tours": "bohol-island-tours-details.html",
       "TAPSTEMCO": "tapstemco-details.html",
-      "Roxas Water District": "roxas-water-district-details.html"
+      "Roxas Water District": "roxas-water-district-details.html",
+      "Labason Water District": "labason-water-district-details.html"
     };
     const detailsHref = detailsPages[item.name];
     const detailsBtn = detailsHref
