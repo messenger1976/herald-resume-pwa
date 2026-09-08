@@ -127,7 +127,8 @@ function renderPortfolio(resume) {
       "Pension House App": "pension-house-details.html",
       "Lakambini 2026": "lakambini-details.html",
       "Bohol Island Tours": "bohol-island-tours-details.html",
-      "TAPSTEMCO": "tapstemco-details.html"
+      "TAPSTEMCO": "tapstemco-details.html",
+      "Roxas Water District": "roxas-water-district-details.html"
     };
     const detailsHref = detailsPages[item.name];
     const detailsBtn = detailsHref

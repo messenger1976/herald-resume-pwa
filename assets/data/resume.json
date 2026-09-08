@@ -123,6 +123,12 @@
       "type": "Portfolio"
     },
     {
+      "name": "Roxas Water District",
+      "description": "Water billing & utility admin for Pres. M. A. Roxas WD — customers by zone, meter billing, collections analytics, support tickets, expenses/accounting, and mobile notifications.",
+      "url": "https://waterbilling.uk.tempcloudsite.com/",
+      "type": "Portfolio"
+    },
+    {
       "name": "Bohol Island Tours",
       "description": "Tourism booking platform with packages, destinations, rentals, and CI3 admin.",
       "url": "https://www.boholislandtours.com",
