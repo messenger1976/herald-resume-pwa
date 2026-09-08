@@ -126,7 +126,8 @@ function renderPortfolio(resume) {
       "UnifiedAR Platform": "unifiedar-details.html",
       "Pension House App": "pension-house-details.html",
       "Lakambini 2026": "lakambini-details.html",
-      "Bohol Island Tours": "bohol-island-tours-details.html"
+      "Bohol Island Tours": "bohol-island-tours-details.html",
+      "TAPSTEMCO": "tapstemco-details.html"
     };
     const detailsHref = detailsPages[item.name];
     const detailsBtn = detailsHref

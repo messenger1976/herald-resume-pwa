@@ -106,7 +106,7 @@
     },
     {
       "name": "Bohollander IT Solutions",
-      "description": "Custom software development and web application consulting portfolio.",
+      "description": "Custom software development, web application consulting, web hosting solutions, and hardware repair services.",
       "url": "https://www.bohollander.com",
       "type": "Company Website"
     },
@@ -114,6 +114,12 @@
       "name": "BODARE MPC",
       "description": "Official site for Bohol DAR Employee & Community Multi-Purpose Cooperative — loans, savings, products, officers, CMS, and inquiries.",
       "url": "https://www.bodarempc.com",
+      "type": "Portfolio"
+    },
+    {
+      "name": "TAPSTEMCO",
+      "description": "Cooperative management dashboard for Talibon Public School Teachers and Employees MPC — members, share capital, savings, loans, aging, collections, and admin workflows.",
+      "url": "https://tapstemco.com",
       "type": "Portfolio"
     },
     {
