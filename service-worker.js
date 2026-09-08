@@ -1,4 +1,4 @@
-const CACHE_NAME = "hfolio-cache-v15";
+const CACHE_NAME = "hfolio-cache-v16";
 const CORE_ASSETS = [
   "./",
   "./index.html",
