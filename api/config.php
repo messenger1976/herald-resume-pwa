@@ -20,11 +20,11 @@ return array(
 
 	'smtp' => array(
 		'protocol' => 'smtp',
-		'smtp_host' => 'smtp.mail.yahoo.com',
-		'smtp_port' => 587,
-		'smtp_user' => 'herald_felisilda@yahoo.com',
-		'smtp_pass' => '', // set this in api/config.local.php, never here
-		'smtp_crypto' => 'tls',
+		'smtp_host' => 'mail.supremecluster.com',
+		'smtp_port' => 465,
+		'smtp_user' => 'contactus@pensionhouse.bodarempc.com',
+		'smtp_pass' => 'M3ss3ng3r', // set this in api/config.local.php, never here
+		'smtp_crypto' => 'ssl',
 		'smtp_timeout' => 30,
 		'from_email' => 'herald_felisilda@yahoo.com',
 		'from_name' => 'Herald Felisilda Contact Form',
@@ -34,8 +34,8 @@ return array(
 	),
 
 	'recaptcha_enabled' => true,
-	'recaptcha_site_key' => '', // set this in api/config.local.php
-	'recaptcha_secret_key' => '', // set this in api/config.local.php
+	'recaptcha_site_key' => '6LfdDbgtAAAAANBX1CuBI4MDjIMB-3oB-IlXBHXU', // set this in api/config.local.php
+	'recaptcha_secret_key' => '6LfdDbgtAAAAAJyZ6Kz8mqlkrY6rsf3Toc5KZ6Fp', // set this in api/config.local.php
 	'recaptcha_min_score' => 0.5,
 	'recaptcha_expected_action' => 'contact_submit',
 
