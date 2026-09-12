@@ -313,6 +313,78 @@ if ($send) {
 }
 
 // ---------------------------------------------------------------------------
+echo PHP_EOL . "SMTP fallback" . PHP_EOL;
+// ---------------------------------------------------------------------------
+// The fallback has to sit inside $config['smtp']: that is the array the Mailer
+// is constructed from. It used to be documented as a sibling of 'smtp', which
+// nothing ever read, so the feature was silently dead.
+check('fallback normalised into the smtp block', isset($config['smtp']['smtp_fallback']) && is_array($config['smtp']['smtp_fallback']));
+check('top-level fallback mirrors the nested one', ($config['smtp_fallback'] ?? null) === $config['smtp']['smtp_fallback']);
+
+$fallback = $config['smtp']['smtp_fallback'];
+$fallbackConfigured = !empty($fallback['smtp_host']) && !empty($fallback['smtp_user']) && !empty($fallback['smtp_pass']);
+echo '  [INFO] fallback transport ' . ($fallbackConfigured
+	? 'configured — ' . $fallback['smtp_host'] . ':' . $fallback['smtp_port']
+	: 'not configured yet — set smtp_pass in api/config.local.php to enable it') . PHP_EOL;
+
+// A fallback on a different server must not inherit the primary's port/TLS pair.
+$mergeFallback = new ReflectionMethod('Mailer', 'merge_fallback_transport');
+$mergeFallback->setAccessible(true);
+$primaryMailer = new Mailer(array(
+	'smtp_host' => 'mail.primary.example',
+	'smtp_port' => 465,
+	'smtp_user' => 'primary@example.com',
+	'smtp_pass' => 'primary-secret',
+	'smtp_crypto' => 'ssl',
+));
+
+$otherHost = $mergeFallback->invoke($primaryMailer, array('smtp_host' => 'smtp.other.example', 'smtp_user' => 'u', 'smtp_pass' => 'p'));
+check('other host does not inherit the primary port', ($otherHost['smtp_port'] ?? 0) === 587, 'port=' . ($otherHost['smtp_port'] ?? 'n/a'));
+check('other host defaults to STARTTLS', ($otherHost['smtp_crypto'] ?? '') === 'tls', 'crypto=' . ($otherHost['smtp_crypto'] ?? 'n/a'));
+
+$otherHost465 = $mergeFallback->invoke($primaryMailer, array('smtp_host' => 'smtp.other.example', 'smtp_port' => 465, 'smtp_user' => 'u', 'smtp_pass' => 'p'));
+check('465 without a crypto mode is inferred as ssl', ($otherHost465['smtp_crypto'] ?? '') === 'ssl', 'crypto=' . ($otherHost465['smtp_crypto'] ?? 'n/a'));
+
+$sameHost = $mergeFallback->invoke($primaryMailer, array('smtp_host' => 'mail.primary.example', 'smtp_user' => 'u2', 'smtp_pass' => 'p2'));
+check('same host keeps the primary transport', ($sameHost['smtp_port'] ?? 0) === 465 && ($sameHost['smtp_crypto'] ?? '') === 'ssl', 'port=' . ($sameHost['smtp_port'] ?? 'n/a') . ', crypto=' . ($sameHost['smtp_crypto'] ?? 'n/a'));
+
+// api/test-mail.php prints get_settings(), so neither password may appear there.
+$leakyMailer = new Mailer(array(
+	'smtp_host' => 'mail.example.com',
+	'smtp_user' => 'u@example.com',
+	'smtp_pass' => 'top-secret',
+	'smtp_fallback' => array('smtp_host' => 'smtp.other.example', 'smtp_user' => 'u2', 'smtp_pass' => 'fallback-secret'),
+));
+$exposed = $leakyMailer->get_settings();
+check('primary password never exposed', !isset($exposed['smtp_pass']));
+check('fallback password never exposed', empty($exposed['smtp_fallback']['smtp_pass']));
+
+// Prove the fallback is really attempted: point it at a closed port.
+$fallbackAttempt = new Mailer(array(
+	'smtp_host' => (string) $config['smtp']['smtp_host'],
+	'smtp_port' => (int) $config['smtp']['smtp_port'],
+	'smtp_user' => (string) $config['smtp']['smtp_user'],
+	'smtp_pass' => (string) $config['smtp']['smtp_pass'],
+	'smtp_crypto' => (string) $config['smtp']['smtp_crypto'],
+	'from_email' => (string) $config['smtp']['from_email'],
+	'from_name' => (string) $config['smtp']['from_name'],
+	'smtp_timeout' => 8,
+	'is_active' => true,
+	'smtp_fallback' => array(
+		'smtp_host' => '127.0.0.1',
+		'smtp_port' => 2525,
+		'smtp_user' => 'probe@example.com',
+		'smtp_pass' => 'probe-password',
+		'smtp_crypto' => '',
+	),
+));
+$fallbackAttempt->send('probe@example.com', 'fallback probe', '<p>probe</p>');
+$fallbackTranscript = implode(PHP_EOL, $fallbackAttempt->get_transcript());
+$connections = substr_count($fallbackTranscript, 'CONNECT ');
+check('fallback transport is attempted after a failure', $connections === 2, 'connections=' . $connections);
+check('failure names both transports', strpos($fallbackAttempt->get_last_error(), 'Fallback transport') !== false, $fallbackAttempt->get_last_error());
+
+// ---------------------------------------------------------------------------
 echo PHP_EOL . str_repeat('-', 62) . PHP_EOL;
 echo "Result: {$pass} passed, {$fail} failed" . PHP_EOL;
 echo PHP_EOL;

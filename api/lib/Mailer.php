@@ -88,6 +88,12 @@ final class Mailer
 		$copy = $this->settings;
 		unset($copy['smtp_pass']);
 
+		// The fallback carries its own password. api/test-mail.php prints this
+		// array, so it must be scrubbed too or the diagnostic page leaks it.
+		if (isset($copy['smtp_fallback']) && is_array($copy['smtp_fallback'])) {
+			unset($copy['smtp_fallback']['smtp_pass']);
+		}
+
 		return $copy;
 	}
 
@@ -177,7 +183,7 @@ final class Mailer
 			: array();
 
 		if (!empty($fallback['smtp_host']) && !empty($fallback['smtp_user']) && !empty($fallback['smtp_pass'])) {
-			$merged = array_merge($this->settings, $fallback);
+			$merged = $this->merge_fallback_transport($fallback);
 			$retry = $this->deliver($merged, $data, $timeout);
 			if ($retry === true) {
 				$this->used_fallback = true;
@@ -301,6 +307,45 @@ final class Mailer
 			'recipients' => $recipients,
 			'sender' => $fromEmail,
 		);
+	}
+
+	/**
+	 * Build the settings for one fallback attempt.
+	 *
+	 * A fallback on a *different* server must not inherit the primary's port or
+	 * TLS mode: 465/ssl and 587/tls are not interchangeable, and inheriting
+	 * "ssl" onto port 587 fails the handshake. When the fallback names its own
+	 * port but no crypto mode, the conventional pairing is used instead.
+	 *
+	 * @param array<string,mixed> $fallback
+	 * @return array<string,mixed>
+	 */
+	private function merge_fallback_transport(array $fallback): array
+	{
+		$merged = array_merge($this->settings, $fallback);
+
+		$primaryHost = strtolower(trim((string) $this->value('smtp_host')));
+		$fallbackHost = strtolower(trim((string) $fallback['smtp_host']));
+
+		// Same server, different mailbox: the primary's transport still applies.
+		if ($primaryHost !== '' && $fallbackHost === $primaryHost) {
+			if (empty($fallback['smtp_port'])) {
+				$merged['smtp_port'] = (int) $this->value('smtp_port', 587);
+			}
+			if (empty($fallback['smtp_crypto'])) {
+				$merged['smtp_crypto'] = (string) $this->value('smtp_crypto', 'tls');
+			}
+
+			return $merged;
+		}
+
+		$port = empty($fallback['smtp_port']) ? 587 : (int) $fallback['smtp_port'];
+		$merged['smtp_port'] = $port;
+		$merged['smtp_crypto'] = empty($fallback['smtp_crypto'])
+			? ($port === 465 ? 'ssl' : 'tls')
+			: (string) $fallback['smtp_crypto'];
+
+		return $merged;
 	}
 
 	/**

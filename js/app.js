@@ -20,8 +20,9 @@ function initContactForm() {
 
   var submitBtn = document.getElementById("contactSubmitBtn");
   var csrfInput = document.getElementById("contactCsrfToken");
-  var statusBox = document.getElementById("formStatus");
-  var fallbackBox = document.getElementById("formFallback");
+  // jQuery wrappers: these two are driven with .addClass/.removeClass/.text().
+  var statusBox = $("#formStatus");
+  var fallbackBox = $("#formFallback");
   var mailtoBtn = document.getElementById("formMailtoBtn");
   var captchaBlock = document.getElementById("captchaBlock");
   var captchaLabel = document.getElementById("captchaLabel");
@@ -49,7 +50,7 @@ function initContactForm() {
   };
 
   function showStatus(type, message) {
-    if (!statusBox) {
+    if (!statusBox.length) {
       return;
     }
     statusBox
@@ -59,13 +60,13 @@ function initContactForm() {
   }
 
   function clearStatus() {
-    if (statusBox) {
+    if (statusBox.length) {
       statusBox.addClass("d-none").text("");
     }
   }
 
   function showMailtoFallback(url) {
-    if (!fallbackBox || !mailtoBtn) {
+    if (!fallbackBox.length || !mailtoBtn) {
       return;
     }
     if (url) {
@@ -83,6 +84,209 @@ function initContactForm() {
     }
     submitBtn.disabled = !!locked;
     submitBtn.textContent = locked ? (label || "Sending...") : "Send Message";
+  }
+
+  // -------------------------------------------------------------------------
+  // Field-level validation
+  //
+  // The form carries `novalidate`, so the browser's native bubbles are replaced
+  // with Bootstrap's .is-invalid / .invalid-feedback. These rules mirror
+  // hfolio_validate_inquiry_fields() in api/contact.php; anything the server
+  // still rejects comes back in the `errors` map and is mapped onto the same
+  // inputs by applyServerErrors().
+  // -------------------------------------------------------------------------
+
+  var FIELD_RULES = [
+    {
+      id: "fullName",
+      field: "name",
+      required: "Please enter your name.",
+      max: 150,
+      maxMessage: "Name must be 150 characters or fewer.",
+      test: /^[\p{L}\p{M}'\-. \s]+$/u,
+      testMessage: "Name can only contain letters, spaces, apostrophes, periods and hyphens."
+    },
+    {
+      id: "emailAddress",
+      field: "email",
+      required: "Please enter your email address.",
+      max: 255,
+      maxMessage: "Email must be 255 characters or fewer.",
+      test: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+      testMessage: "Please enter a valid email address."
+    },
+    {
+      id: "subject",
+      field: "subject",
+      required: "Please enter a subject.",
+      max: 255,
+      maxMessage: "Subject must be 255 characters or fewer."
+    },
+    {
+      id: "message",
+      field: "message",
+      required: "Please enter a message.",
+      min: 10,
+      minMessage: "Message must be at least 10 characters.",
+      max: 5000,
+      maxMessage: "Message must be 5000 characters or fewer."
+    }
+  ];
+
+  function eachRule(callback) {
+    for (var i = 0; i < FIELD_RULES.length; i++) {
+      var input = document.getElementById(FIELD_RULES[i].id);
+      if (input) {
+        callback(FIELD_RULES[i], input);
+      }
+    }
+  }
+
+  function ruleFor(fieldName) {
+    for (var i = 0; i < FIELD_RULES.length; i++) {
+      if (FIELD_RULES[i].field === fieldName) {
+        return FIELD_RULES[i];
+      }
+    }
+    return null;
+  }
+
+  function feedbackFor(input) {
+    var feedback = input.parentNode.querySelector(".invalid-feedback[data-field-error]");
+    if (!feedback) {
+      feedback = document.createElement("div");
+      feedback.className = "invalid-feedback";
+      feedback.setAttribute("data-field-error", "1");
+      feedback.setAttribute("role", "alert");
+      input.parentNode.appendChild(feedback);
+    }
+    return feedback;
+  }
+
+  function setFieldError(input, message) {
+    if (!input) {
+      return;
+    }
+    input.classList.add("is-invalid");
+    input.setAttribute("aria-invalid", "true");
+    feedbackFor(input).textContent = message;
+  }
+
+  function clearFieldError(input) {
+    if (!input) {
+      return;
+    }
+    input.classList.remove("is-invalid");
+    input.removeAttribute("aria-invalid");
+    var feedback = input.parentNode.querySelector(".invalid-feedback[data-field-error]");
+    if (feedback) {
+      feedback.textContent = "";
+    }
+  }
+
+  function clearAllFieldErrors() {
+    eachRule(function (rule, input) {
+      clearFieldError(input);
+    });
+    if (captchaCode) {
+      clearFieldError(captchaCode);
+    }
+  }
+
+  /** First problem with one input, or "" when it passes. */
+  function checkInput(rule, input) {
+    var value = (input.value || "").trim();
+    if (value === "") {
+      return rule.required || "";
+    }
+    if (rule.min && value.length < rule.min) {
+      return rule.minMessage || "";
+    }
+    if (rule.max && value.length > rule.max) {
+      return rule.maxMessage || "";
+    }
+    if (rule.test && !rule.test.test(value)) {
+      return rule.testMessage || "";
+    }
+    return "";
+  }
+
+  /** Validate every field; returns {ok, firstInvalid, message}. */
+  function validateFields() {
+    var firstInvalid = null;
+    var message = "";
+    eachRule(function (rule, input) {
+      var error = checkInput(rule, input);
+      if (error) {
+        setFieldError(input, error);
+        if (!firstInvalid) {
+          firstInvalid = input;
+          message = error;
+        }
+      } else {
+        clearFieldError(input);
+      }
+    });
+    return { ok: !firstInvalid, firstInvalid: firstInvalid, message: message };
+  }
+
+  /**
+   * Put the server's `errors` map (from the 400 response) on the matching
+   * inputs. Returns the first offender so the caller can focus and summarise.
+   */
+  function applyServerErrors(errors) {
+    var firstInvalid = null;
+    var message = "";
+    clearAllFieldErrors();
+    for (var fieldName in errors) {
+      if (!Object.prototype.hasOwnProperty.call(errors, fieldName)) {
+        continue;
+      }
+      var rule = ruleFor(fieldName);
+      var input = rule ? document.getElementById(rule.id) : null;
+      if (!input) {
+        continue;
+      }
+      setFieldError(input, String(errors[fieldName]));
+      if (!firstInvalid) {
+        firstInvalid = input;
+        message = String(errors[fieldName]);
+      }
+    }
+    return { firstInvalid: firstInvalid, message: message };
+  }
+
+  // Re-check a field as soon as the visitor fixes it, and on blur once it has
+  // been filled in — never on a pristine field, so tabbing through is quiet.
+  eachRule(function (rule, input) {
+    input.addEventListener("input", function () {
+      if (input.classList.contains("is-invalid")) {
+        var error = checkInput(rule, input);
+        if (error) {
+          setFieldError(input, error);
+        } else {
+          clearFieldError(input);
+        }
+      }
+    });
+    input.addEventListener("blur", function () {
+      if ((input.value || "").trim() !== "") {
+        var error = checkInput(rule, input);
+        if (error) {
+          setFieldError(input, error);
+        } else {
+          clearFieldError(input);
+        }
+      }
+    });
+  });
+
+  // The CAPTCHA input is not in FIELD_RULES (its answer is checked server-side),
+  // so just clear its error as soon as the visitor starts correcting it.
+  if (captchaCode) {
+    captchaCode.addEventListener("input", function () {
+      clearFieldError(captchaCode);
+    });
   }
 
   /**
@@ -108,6 +312,7 @@ function initContactForm() {
   function resetCaptcha() {
     if (captchaCode) {
       captchaCode.value = "";
+      clearFieldError(captchaCode);
     }
     if (captchaImage && captchaType === "image") {
       captchaImage.setAttribute("src", buildCaptchaUrl(Date.now()));
@@ -309,17 +514,19 @@ function initContactForm() {
     var message = ($("#message").val() || "").trim();
     var captchaAnswer = captchaCode ? ($(captchaCode).val() || "").trim() : "";
 
-    if (!name || !email || !subject || !message) {
-      showStatus("danger", "Please fill in all fields.");
+    var check = validateFields();
+    if (!check.ok) {
+      showStatus("danger", check.message);
+      if (check.firstInvalid) {
+        check.firstInvalid.focus();
+      }
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      showStatus("danger", "Please enter a valid email address.");
-      return;
-    }
+
     if (security.captcha_enabled && !captchaAnswer) {
       showStatus("danger", captchaNeedsImage ? "Please enter the code from the image." : "Please answer the security question.");
       if (captchaCode) {
+        setFieldError(captchaCode, "Please complete the security check.");
         captchaCode.focus();
       }
       return;
@@ -357,6 +564,7 @@ function initContactForm() {
       })
       .then(function (result) {
         if (result && result.success) {
+          clearAllFieldErrors();
           var confirmation = result.message || "Thank you! Your message has been sent.";
           if (result.ticket_id) {
             confirmation += " Your reference is " + result.ticket_id + ".";
@@ -370,7 +578,22 @@ function initContactForm() {
           }
           form.reset();
         } else {
-          showStatus("danger", (result && result.message) ? result.message : "Could not send your message.");
+          // Field-level rejections from the API carry an `errors` map; anything
+          // else (rate limit, CSRF, CAPTCHA) only has a summary message.
+          var applied = result && result.errors ? applyServerErrors(result.errors) : null;
+
+          if (result && result.captcha_failed && captchaCode) {
+            setFieldError(captchaCode, result.message || "Please complete the security check.");
+          }
+
+          showStatus(
+            "danger",
+            (applied && applied.message) || (result && result.message) || "Could not send your message."
+          );
+
+          if (applied && applied.firstInvalid) {
+            applied.firstInvalid.focus();
+          }
         }
       })
       .catch(function (xhr) {

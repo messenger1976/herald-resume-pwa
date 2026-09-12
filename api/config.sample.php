@@ -43,18 +43,24 @@ return array(
 		'mailtype' => 'html',
 		'charset' => 'utf-8',
 		'is_active' => true,
+
+		// Optional second transport, tried only when the block above fails.
+		// It must be nested inside 'smtp': the Mailer is built from this array,
+		// so a 'smtp_fallback' declared beside it is never read.
+		// Leave smtp_pass empty to disable. For a provider on another server,
+		// set the port and crypto mode explicitly (465 => ssl, 587 => tls); 0/''
+		// makes the Mailer infer them from the port.
+		'smtp_fallback' => array(
+			'smtp_host' => '',
+			'smtp_port' => 0,
+			'smtp_user' => '',
+			'smtp_pass' => '', // put this in api/config.local.php, not here
+			'smtp_crypto' => '',
+		),
 	),
 
-	// Optional second transport tried only when the primary SMTP fails.
-	// Leave the array empty to disable. Example for a cPanel mailbox:
-	// 'smtp_fallback' => array(
-	// 	'smtp_host' => 'mail.yourdomain.com',
-	// 	'smtp_port' => 587,
-	// 	'smtp_user' => 'noreply@yourdomain.com',
-	// 	'smtp_pass' => 'mailbox-password',
-	// 	'smtp_crypto' => 'tls',
-	// ),
-	'smtp_fallback' => array(),
+	// Kept for backwards compatibility: if a top-level 'smtp_fallback' is set,
+	// bootstrap.php copies it into $config['smtp']['smtp_fallback'].
 
 	// -----------------------------------------------------------------------
 	// CAPTCHA

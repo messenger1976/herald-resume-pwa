@@ -24,6 +24,17 @@ return array(
 		//   Yahoo : Account Info > Security > Generate app password
 		//   Gmail : Google Account > Security > App passwords
 		'smtp_pass' => '',
+
+		// Optional second transport, used only when the mailbox above fails.
+		// Keep it nested inside 'smtp' — that is the array the Mailer reads.
+		// Leave smtp_pass empty to leave the fallback switched off.
+		// 'smtp_fallback' => array(
+		// 	'smtp_host' => 'smtp.mail.yahoo.com',
+		// 	'smtp_port' => 465,
+		// 	'smtp_user' => 'you@yahoo.com',
+		// 	'smtp_pass' => '',
+		// 	'smtp_crypto' => 'ssl',
+		// ),
 	),
 
 	// Optional: only needed if you enable Google reCAPTCHA v3.

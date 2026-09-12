@@ -251,6 +251,7 @@ function hfolio_deliver_inquiry(array $config, Security $security, array $fields
 	$ownerNotified = false;
 	$senderAcknowledged = false;
 	$mailError = '';
+	$mailTransport = 'primary';
 	$headers = array('X-HFolio-Ticket' => $ticketId);
 
 	if ($ownerEmail !== '') {
@@ -265,6 +266,10 @@ function hfolio_deliver_inquiry(array $config, Security $security, array $fields
 			$mailTimeout,
 			$headers
 		);
+		if ($ownerNotified && $mailer->used_fallback()) {
+			// The primary transport refused the message; the backup delivered it.
+			$mailTransport = 'fallback';
+		}
 		if (!$ownerNotified) {
 			$mailError = $mailer->get_last_error();
 		}
@@ -301,6 +306,7 @@ function hfolio_deliver_inquiry(array $config, Security $security, array $fields
 		'ticket_id' => $ticketId,
 		'owner_notified' => $ownerNotified,
 		'sender_acknowledged' => $senderAcknowledged,
+		'transport' => $mailTransport,
 	));
 
 	$body = array(
@@ -310,6 +316,7 @@ function hfolio_deliver_inquiry(array $config, Security $security, array $fields
 		'email_sent' => $ownerNotified,
 		'acknowledgement_sent' => $senderAcknowledged,
 		'stored' => (bool) $stored,
+		'transport' => $mailTransport,
 	);
 
 	if (!$ownerNotified) {

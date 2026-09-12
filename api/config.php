@@ -31,6 +31,18 @@ return array(
 		'mailtype' => 'html',
 		'charset' => 'utf-8',
 		'is_active' => true,
+
+		// Second transport, tried only when the block above fails (rejected
+		// password, provider outage, refused relay). Leave smtp_pass empty to
+		// disable it. Real credentials belong in api/config.local.php — this file
+		// is committed and replaced on every deploy.
+		'smtp_fallback' => array(
+			'smtp_host' => '',
+			'smtp_port' => 0, // 0 = infer from the crypto mode below (465, else 587)
+			'smtp_user' => '',
+			'smtp_pass' => '', // empty = fallback disabled
+			'smtp_crypto' => '', // '' = infer from the port (465 => ssl, else tls)
+		),
 	),
 
 	'recaptcha_enabled' => true,

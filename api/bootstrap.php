@@ -206,7 +206,30 @@ if (!function_exists('api_load_config')) {
 			'is_active' => true,
 		);
 		$config['smtp'] = array_merge($smtpDefaults, is_array($config['smtp']) ? $config['smtp'] : array());
-		$config['smtp_fallback'] = array_merge(array(), is_array($config['smtp_fallback']) ? $config['smtp_fallback'] : array());
+
+		// The Mailer is constructed with $config['smtp'], so the fallback has to
+		// live inside that block to be read. It used to be declared and documented
+		// as a sibling of 'smtp' — which nothing ever loaded, so the fallback was
+		// silently dead. Accept either position and normalise it here.
+		$fallback = array();
+		if (!empty($config['smtp']['smtp_fallback']) && is_array($config['smtp']['smtp_fallback'])) {
+			$fallback = $config['smtp']['smtp_fallback'];
+		} elseif (!empty($config['smtp_fallback']) && is_array($config['smtp_fallback'])) {
+			$fallback = $config['smtp_fallback'];
+		}
+		// Empty rather than concrete defaults: Mailer decides the port/TLS pair
+		// from the fallback host, so it must be able to tell "unset" from "tls".
+		$config['smtp']['smtp_fallback'] = array_merge(
+			array(
+				'smtp_host' => '',
+				'smtp_port' => 0,
+				'smtp_user' => '',
+				'smtp_pass' => '',
+				'smtp_crypto' => '',
+			),
+			$fallback
+		);
+		$config['smtp_fallback'] = $config['smtp']['smtp_fallback'];
 
 		$captchaDefaults = array(
 			'enabled' => true,
