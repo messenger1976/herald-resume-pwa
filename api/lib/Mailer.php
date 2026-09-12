@@ -61,19 +61,20 @@ final class Mailer
 	public function is_configured(): bool
 	{
 		if (empty($this->settings['is_active'])) {
-			$this->last_error = 'Email sending is currently disabled in api/config.php (is_active = false).';
+			$this->last_error = 'Email sending is currently disabled (is_active = false).';
 
 			return false;
 		}
 
 		if ($this->value('smtp_host') === '' || $this->value('smtp_user') === '') {
-			$this->last_error = 'SMTP host/user are not configured yet. Fill in api/config.php.';
+			$this->last_error = 'SMTP host/user are not configured. Set them in api/config.php.';
 
 			return false;
 		}
 
 		if ($this->value('smtp_pass') === '') {
-			$this->last_error = 'SMTP password is empty. Add your mailbox app password to api/config.php.';
+			$this->last_error = 'SMTP password is empty. Add the mailbox app password in api/config.local.php '
+				. '(copy api/config.local.sample.php). Never put it in api/config.php, which is committed to git and replaced on every deploy.';
 
 			return false;
 		}
