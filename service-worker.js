@@ -1,4 +1,4 @@
-const CACHE_NAME = "hfolio-cache-v24";
+const CACHE_NAME = "hfolio-cache-v25";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -14,6 +14,7 @@ const CORE_ASSETS = [
   "./labason-water-district-details.html",
   "./contact.html",
   "./offline.html",
+  "./favicon.ico",
   "./css/styles.css",
   "./js/app.js",
   "./js/render.js",
@@ -26,8 +27,11 @@ const CORE_ASSETS = [
   "./js/labason-gallery.js",
   "./assets/data/resume.json",
   "./manifest.json",
-  "./assets/icons/icon-192.svg",
-  "./assets/icons/icon-512.svg",
+  "./assets/icons/favicon-16.png",
+  "./assets/icons/favicon-32.png",
+  "./assets/icons/apple-touch-icon.png",
+  "./assets/icons/icon-192.png",
+  "./assets/icons/icon-512.png",
   "./assets/images/profile.jpg"
 ];
 
