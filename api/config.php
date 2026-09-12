@@ -22,11 +22,11 @@ return array(
 		'protocol' => 'smtp',
 		'smtp_host' => 'mail.supremecluster.com',
 		'smtp_port' => 465,
-		'smtp_user' => 'contactus@pensionhouse.bodarempc.com',
-		'smtp_pass' => 'M3ss3ng3r', // set this in api/config.local.php, never here
+		'smtp_user' => 'heraldfelisilda@bohollander.com',
+		'smtp_pass' => 'M3ss3ng3r1976@49', // set this in api/config.local.php, never here
 		'smtp_crypto' => 'ssl',
 		'smtp_timeout' => 30,
-		'from_email' => 'herald_felisilda@yahoo.com',
+		'from_email' => 'heraldfelisilda@bohollander.com',
 		'from_name' => 'Herald Felisilda Contact Form',
 		'mailtype' => 'html',
 		'charset' => 'utf-8',
