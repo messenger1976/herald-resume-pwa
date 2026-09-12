@@ -1,0 +1,3 @@
+# Deny every request to this directory: it holds the CSRF signing secret,
+# submission logs, saved inquiries, and rate-limit state.
+Require all denied

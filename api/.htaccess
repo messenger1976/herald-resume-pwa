@@ -1,0 +1,10 @@
+# Block config, secrets and library sources from direct HTTP access
+<FilesMatch "^(config\.php|config\.sample\.php|config\.local\.php|config\.local\.sample\.php|bootstrap\.php|\.secret|\.env|health\.php)$">
+	Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule ^lib/ - [F,L]
+	RewriteRule ^storage/ - [F,L]
+</IfModule>
