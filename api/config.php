@@ -45,9 +45,17 @@ return array(
 		),
 	),
 
-	'recaptcha_enabled' => true,
-	'recaptcha_site_key' => '6LfdDbgtAAAAANBX1CuBI4MDjIMB-3oB-IlXBHXU', // set this in api/config.local.php
-	'recaptcha_secret_key' => '6LfdDbgtAAAAAJyZ6Kz8mqlkrY6rsf3Toc5KZ6Fp', // set this in api/config.local.php
+	// reCAPTCHA is OFF: the keys below were a reCAPTCHA v2 pair, but the client
+	// uses the v3 API (grecaptcha.execute + action/score check), so Google
+	// answers api.js?render=<site key> with HTTP 400 and the widget never loads.
+	// The form still runs its self-hosted CAPTCHA, CSRF token, honeypot and rate
+	// limiting, none of which need keys.
+	// To switch it back on: create a "Score based (v3)" key pair at
+	// https://www.google.com/recaptcha/admin/create, put both keys AND
+	// 'recaptcha_enabled' => true in api/config.local.php.
+	'recaptcha_enabled' => false,
+	'recaptcha_site_key' => '',
+	'recaptcha_secret_key' => '',
 	'recaptcha_min_score' => 0.5,
 	'recaptcha_expected_action' => 'contact_submit',
 

@@ -290,21 +290,13 @@ function initContactForm() {
   }
 
   /**
-   * Point the <img> at api/captcha.php through the PHP location that served this
-   * page. cache=<token> forces a genuinely new image each time. The session
-   * cookie is path-scoped to /resume/, so the query-string fallback still keeps
-   * the session the puzzle was generated in.
+   * Point the <img> at api/captcha.php using the same data-api-base the AJAX
+   * calls use. This used to be derived from app.js's own path, which produced
+   * js/captcha.php — a 404, so the image challenge never rendered and only the
+   * maths variant was solvable. cache=<token> forces a genuinely new image.
    */
   function buildCaptchaUrl(seed) {
-    var base = "api/captcha.php";
-    var scripts = document.getElementsByTagName("script");
-    for (var i = 0; i < scripts.length; i++) {
-      var src = scripts[i].getAttribute("src") || "";
-      if (/(^|\/)app\.js(\?|$)/.test(src)) {
-        base = src.replace(/app\.js(\?.*)?$/, "captcha.php");
-        break;
-      }
-    }
+    var base = apiBase + "captcha.php";
     var separator = base.indexOf("?") === -1 ? "?" : "&";
     return base + separator + "cache=" + encodeURIComponent(String(seed || Date.now()));
   }
@@ -319,32 +311,60 @@ function initContactForm() {
     }
   }
 
+  var RECAPTCHA_FAILURE =
+    "The security check could not load, so your message was not sent. Please refresh the page and try again, or email me directly.";
+
   function loadRecaptcha(siteKey) {
     return new Promise(function (resolve, reject) {
       if (window.grecaptcha && window.grecaptcha.execute) {
         resolve();
         return;
       }
-      var existing = document.querySelector("script[data-recaptcha-v3]");
-      if (existing) {
-        existing.addEventListener("load", function () {
-          resolve();
-        });
-        existing.addEventListener("error", function () {
-          reject(new Error("Failed to load CAPTCHA."));
-        });
+
+      var settled = false;
+      var timer = null;
+
+      function done() {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        clearTimeout(timer);
+        resolve();
+      }
+
+      function fail(message) {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        clearTimeout(timer);
+        reject(new Error(message || RECAPTCHA_FAILURE));
+      }
+
+      // A tag that is already in the DOM has either loaded (and would have
+      // defined grecaptcha) or failed. Adding a listener to it now never fires
+      // again, which used to leave this promise pending forever and stranded
+      // the submit button on "Sending..." with no explanation.
+      if (document.querySelector("script[data-recaptcha-v3]")) {
+        fail(RECAPTCHA_FAILURE);
         return;
       }
+
+      // Belt and braces: a request that is blocked with neither load nor error
+      // (extensions, flaky networks) must still release the caller.
+      timer = setTimeout(function () {
+        fail(RECAPTCHA_FAILURE);
+      }, 10000);
+
       var script = document.createElement("script");
       script.src = "https://www.google.com/recaptcha/api.js?render=" + encodeURIComponent(siteKey);
       script.async = true;
       script.defer = true;
       script.setAttribute("data-recaptcha-v3", "1");
-      script.onload = function () {
-        resolve();
-      };
+      script.onload = done;
       script.onerror = function () {
-        reject(new Error("Failed to load CAPTCHA."));
+        fail(RECAPTCHA_FAILURE);
       };
       document.head.appendChild(script);
     });
