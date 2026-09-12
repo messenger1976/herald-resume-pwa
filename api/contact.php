@@ -141,7 +141,27 @@ function hfolio_handle_contact_request(array $config, array $payload): array
 		);
 	}
 
-	// 5) Validation + sanitization
+	// 5) Field-level validation, then sanitization
+	// Validation runs first so each problem is reported against the field that
+	// caused it (`errors`), while sanitize_inquiry_fields() still produces the
+	// cleaned values that get stored and emailed.
+	$fieldErrors = hfolio_validate_inquiry_fields($payload);
+	if ($fieldErrors !== array()) {
+		$security->log_event('inquiry_validation_failed', array(
+			'fields' => array_keys($fieldErrors),
+			'ip' => api_client_ip(),
+		));
+
+		return array(
+			'status' => 400,
+			'body' => array(
+				'success' => false,
+				'message' => (string) reset($fieldErrors),
+				'errors' => $fieldErrors,
+			),
+		);
+	}
+
 	$clean = $security->sanitize_inquiry_fields($payload);
 	if (empty($clean['ok'])) {
 		return array(
@@ -308,6 +328,100 @@ function hfolio_deliver_inquiry(array $config, Security $security, array $fields
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+/**
+ * Field-level validation for the contact form.
+ *
+ * Deliberately separate from Security::sanitize_inquiry_fields(): this guard
+ * reports every problem per field so the browser can highlight the offending
+ * input, while the sanitizer remains the single source of the values that are
+ * stored and emailed (it also neutralises header injection, tags, etc.).
+ *
+ * The returned keys match the form input names: name, email, subject, phone,
+ * message. An empty array means the payload passed.
+ *
+ * @param array<string,mixed> $payload Raw decoded request body.
+ * @return array<string,string> field name => first error for that field
+ */
+function hfolio_validate_inquiry_fields(array $payload): array
+{
+	$errors = array();
+
+	$name = hfolio_field_value($payload, 'name');
+	$email = hfolio_field_value($payload, 'email');
+	$subject = hfolio_field_value($payload, 'subject');
+	$phone = hfolio_field_value($payload, 'phone');
+	$message = hfolio_field_value($payload, 'message');
+
+	// Name — required, letters/marks plus the usual punctuation.
+	if ($name === '') {
+		$errors['name'] = 'Please enter your name.';
+	} elseif (hfolio_str_len($name) > 150) {
+		$errors['name'] = 'Name must be 150 characters or fewer.';
+	} elseif (!preg_match("/^[\\p{L}\\p{M}'\\-\\.\\s]+$/u", $name)) {
+		$errors['name'] = 'Name can only contain letters, spaces, apostrophes, periods and hyphens.';
+	}
+
+	// Email — required, must be deliverable-looking and fit the column size.
+	if ($email === '') {
+		$errors['email'] = 'Please enter your email address.';
+	} elseif (strlen($email) > 255 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		$errors['email'] = 'Please enter a valid email address.';
+	}
+
+	// Subject — required.
+	if ($subject === '') {
+		$errors['subject'] = 'Please enter a subject.';
+	} elseif (hfolio_str_len($subject) > 255) {
+		$errors['subject'] = 'Subject must be 255 characters or fewer.';
+	}
+
+	// Phone — optional, but must look like a number when supplied.
+	if ($phone !== '' && (hfolio_str_len($phone) > 50 || !preg_match('/^[0-9+()\s.\-]{7,50}$/', $phone))) {
+		$errors['phone'] = 'Please enter a valid phone number.';
+	}
+
+	// Message — required, bounded, and not a link dump.
+	$messageLength = hfolio_str_len($message);
+	if ($message === '') {
+		$errors['message'] = 'Please enter a message.';
+	} elseif ($messageLength < 10) {
+		$errors['message'] = 'Message must be at least 10 characters.';
+	} elseif ($messageLength > 5000) {
+		$errors['message'] = 'Message must be 5000 characters or fewer.';
+	} elseif (hfolio_link_count($message . ' ' . $subject) > 3) {
+		$errors['message'] = 'Please reduce the number of links — your message looks like spam.';
+	}
+
+	return $errors;
+}
+
+/**
+ * Read a form field as a trimmed string without emitting warnings for the
+ * arrays/scalars a hostile client might send.
+ *
+ * @param array<string,mixed> $payload
+ */
+function hfolio_field_value(array $payload, string $key): string
+{
+	if (!isset($payload[$key]) || !is_scalar($payload[$key])) {
+		return '';
+	}
+
+	return trim((string) $payload[$key]);
+}
+
+function hfolio_str_len(string $value): int
+{
+	return function_exists('mb_strlen') ? (int) mb_strlen($value, 'UTF-8') : strlen($value);
+}
+
+function hfolio_link_count(string $value): int
+{
+	$count = preg_match_all('/https?:\/\/|www\./i', $value);
+
+	return $count === false ? 0 : (int) $count;
+}
 
 /**
  * Human-readable, mail-friendly ticket id: HF-20250519-0007.

@@ -154,6 +154,47 @@ foreach ($cases as $label => $payload) {
 }
 
 // ---------------------------------------------------------------------------
+echo PHP_EOL . "Per-field validation errors" . PHP_EOL;
+// ---------------------------------------------------------------------------
+check('valid payload has no field errors', hfolio_validate_inquiry_fields($valid) === array());
+
+$fieldCases = array(
+	'empty name' => array('name' => ''),
+	'oversized name' => array('name' => str_repeat('a', 151)),
+	'bad email' => array('email' => 'nope'),
+	'empty subject' => array('subject' => ''),
+	'bad phone' => array('phone' => 'abc'),
+	'short message' => array('message' => 'hi'),
+	'oversized message' => array('message' => str_repeat('a', 5001)),
+);
+foreach ($fieldCases as $label => $override) {
+	$fieldErrors = hfolio_validate_inquiry_fields(array_merge($valid, $override));
+	$field = (string) array_key_first($override);
+	check($label . ' reports ' . $field, isset($fieldErrors[$field]) && count($fieldErrors) === 1, isset($fieldErrors[$field]) ? $fieldErrors[$field] : 'no error');
+}
+check('link spam reported on the message field', isset(hfolio_validate_inquiry_fields(array_merge($valid, array('message' => 'http://a.com http://b.com http://c.com www.d.com')))['message']));
+check('multiple problems reported together', count(hfolio_validate_inquiry_fields(array('name' => '', 'email' => 'nope', 'subject' => '', 'message' => ''))) === 4);
+check('array input handled without warnings', (hfolio_validate_inquiry_fields(array_merge($valid, array('name' => array('x'))))['name'] ?? '') === 'Please enter your name.');
+
+// End-to-end: the handler must answer 400 with the offending field named.
+$configFields = $config;
+$configFields['min_submit_seconds'] = 0;
+$configFields['recaptcha_enabled'] = false;
+$configFields['captcha']['type'] = 'image';
+$fieldSecurity = new Security($configFields);
+$fieldToken = $fieldSecurity->issue_csrf_token();
+$fieldSecurity->create_captcha();
+$fieldOutcome = hfolio_handle_contact_request($configFields, array_merge($valid, array(
+	'name' => '',
+	'csrf_token' => $fieldToken,
+	'captcha_answer' => (string) ($_SESSION['inquiry_captcha']['answer'] ?? ''),
+	$config['honeypot_field'] => '',
+)));
+check('handler answers 400 for an invalid field', ($fieldOutcome['status'] ?? 0) === 400, 'status=' . ($fieldOutcome['status'] ?? 'n/a'));
+check('handler names the offending field', isset($fieldOutcome['body']['errors']['name']), $fieldOutcome['body']['errors']['name'] ?? 'none');
+check('handler keeps a human-readable message', !empty($fieldOutcome['body']['message']), (string) ($fieldOutcome['body']['message'] ?? ''));
+
+// ---------------------------------------------------------------------------
 echo PHP_EOL . "Rate limiting" . PHP_EOL;
 // ---------------------------------------------------------------------------
 $limitIp = '203.0.113.250';
