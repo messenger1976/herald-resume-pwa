@@ -71,7 +71,11 @@ check('SMTP host', trim((string) $config['smtp']['smtp_host']) !== '', (string) 
 check('SMTP password set', trim((string) $config['smtp']['smtp_pass']) !== '', $config['smtp']['smtp_pass'] === '' ? 'empty — email will not send yet' : 'configured');
 check('storage writable', !empty($runtime['storage_writable']), $runtime['storage']);
 check('built-in CAPTCHA enabled', $security->is_captcha_enabled(), implode(', ', (array) $config['captcha']['type']));
-check('reCAPTCHA v3 configured', $security->is_recaptcha_configured(), $security->is_recaptcha_configured() ? 'active' : 'not configured (optional)');
+// reCAPTCHA is optional: the self-hosted CAPTCHA, CSRF token, honeypot and rate
+// limiting all work without keys, so an unconfigured reCAPTCHA is not a failure.
+echo '  [INFO] reCAPTCHA v3 ' . ($security->is_recaptcha_configured()
+	? 'configured and active'
+	: 'not configured (optional) — relying on the self-hosted CAPTCHA, CSRF, honeypot and rate limiting') . PHP_EOL;
 check('GD available for CAPTCHA images', function_exists('imagecreatetruecolor'), function_exists('imagecreatetruecolor') ? 'yes' : 'no — SVG fallback will be used');
 
 // ---------------------------------------------------------------------------
