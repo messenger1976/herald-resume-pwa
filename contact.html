@@ -50,24 +50,72 @@
       <div class="col-12 col-lg-7">
         <div class="glass rounded-4 p-4">
           <h2 class="h5 mb-3">Quick Message</h2>
-          <form id="contactForm" class="row g-3">
+          <form id="contactForm" class="row g-3" novalidate autocomplete="on" data-api-base="api/" data-api-hint="/resume/api/">
+            <input type="hidden" name="csrf_token" id="contactCsrfToken" value="">
+            <!-- Honeypot: leave empty. Hidden from humans, filled by many bots. -->
+            <div class="hp-field" aria-hidden="true" style="position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important;">
+              <label for="company_url">Company Website</label>
+              <input type="text" id="company_url" name="company_url" value="" tabindex="-1" autocomplete="off">
+            </div>
             <div class="col-12 col-md-6">
               <label for="fullName" class="form-label">Full Name</label>
-              <input id="fullName" type="text" class="form-control" required>
+              <input id="fullName" name="name" type="text" class="form-control" required maxlength="150" autocomplete="name">
             </div>
             <div class="col-12 col-md-6">
               <label for="emailAddress" class="form-label">Email</label>
-              <input id="emailAddress" type="email" class="form-control" required>
+              <input id="emailAddress" name="email" type="email" class="form-control" required maxlength="255" autocomplete="email">
+            </div>
+            <div class="col-12">
+              <label for="subject" class="form-label">Subject</label>
+              <input id="subject" name="subject" type="text" class="form-control" required maxlength="255">
             </div>
             <div class="col-12">
               <label for="message" class="form-label">Message</label>
-              <textarea id="message" class="form-control" rows="4" required></textarea>
+              <textarea id="message" name="message" class="form-control" rows="4" required maxlength="5000"></textarea>
             </div>
+
+            <!-- Security check: self-hosted CAPTCHA (works offline, no keys). -->
             <div class="col-12">
-              <button type="submit" class="btn btn-info">Send Message</button>
+              <div id="captchaBlock" class="captcha-block" hidden>
+                <label for="captchaCode" class="form-label mb-2" id="captchaLabel">Security Check</label>
+                <div class="captcha-row">
+                  <div id="captchaImageWrap" class="captcha-image-wrap">
+                    <img id="captchaImage" class="captcha-image" alt="Security code image" width="210" height="60">
+                  </div>
+                  <div class="captcha-controls">
+                    <input id="captchaCode" name="captcha_answer" type="text" class="form-control"
+                      inputmode="text" maxlength="12" autocomplete="off" autocapitalize="off"
+                      spellcheck="false" aria-describedby="captchaHelp" placeholder="Enter code">
+                    <button type="button" class="btn btn-outline-info btn-sm" id="captchaRefresh"
+                      title="Get a new security code">New code</button>
+                  </div>
+                </div>
+                <p class="form-text text-slate-500 mb-0 mt-2" id="captchaHelp" style="font-size:0.75rem;">
+                  Enter the characters shown to prove you are human.
+                </p>
+              </div>
+              <noscript>
+                <p class="small text-danger mb-0 mt-2">
+                  JavaScript is required to send a message here.
+                  Please email <a href="mailto:herald_felisilda@yahoo.com">herald_felisilda@yahoo.com</a> instead.
+                </p>
+              </noscript>
+            </div>
+
+            <div class="col-12">
+              <button type="submit" class="btn btn-info" id="contactSubmitBtn">Send Message</button>
+              <div id="formFallback" class="mt-3 d-none">
+                <a class="btn btn-outline-info btn-sm" id="formMailtoBtn" href="#">
+                  <i class="fa-solid fa-envelope me-1"></i>Open your email app instead
+                </a>
+              </div>
+              <p class="form-text text-slate-500 mb-0 mt-2" style="font-size:0.75rem;">
+                Protected by a self-hosted image check and CSRF token. reCAPTCHA v3 adds an extra layer when configured.
+                Messages are emailed to me and a copy of your reference number is sent back to you.
+              </p>
             </div>
           </form>
-          <div id="formStatus" class="mt-3 small text-info-emphasis d-none"></div>
+          <div id="formStatus" class="mt-3 small d-none" role="alert"></div>
         </div>
       </div>
     </div>

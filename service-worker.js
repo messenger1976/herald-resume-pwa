@@ -1,4 +1,4 @@
-const CACHE_NAME = "hfolio-cache-v25";
+const CACHE_NAME = "hfolio-cache-v28";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -63,6 +63,23 @@ self.addEventListener("activate", function (event) {
 
 self.addEventListener("fetch", function (event) {
   if (event.request.method !== "GET") {
+    return;
+  }
+
+  const requestUrl = new URL(event.request.url);
+
+  // Never cache the contact API: CSRF tokens, CAPTCHA images and session state
+  // must always come from the server. Caching them would hand the form a stale
+  // token and make every submission fail validation.
+  if (requestUrl.origin === self.location.origin && /\/api\//.test(requestUrl.pathname)) {
+    event.respondWith(
+      fetch(event.request).catch(function () {
+        return new Response(
+          JSON.stringify({ success: false, message: "You appear to be offline. Please reconnect and try again." }),
+          { status: 503, headers: { "Content-Type": "application/json; charset=utf-8" } }
+        );
+      })
+    );
     return;
   }
 

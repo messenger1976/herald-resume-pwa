@@ -28,3 +28,7 @@ jobs:
             **/node_modules/**
             **/.DS_Store
             **/Thumbs.db
+            api/config.local.php
+            api/storage/**
+            **/.secret
+            **/*.log
